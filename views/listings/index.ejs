@@ -14,12 +14,6 @@
         <% for(listing of allListings) { %>
             <li>
                 <a href="/listings/<%= listing._id %>"> <%= listing.title %> </a>
-                <form action="/listings/<%= listing._id %>/edit" style="display: inline;">
-                    <button> Edit </button>
-                </form>
-                <form action="/listings/<%= listing._id %>?_method=DELETE" method="post" style="display: inline;">
-                    <button> Delete </button>
-                </form>
             </li>
         <% } %>
     </ul>
