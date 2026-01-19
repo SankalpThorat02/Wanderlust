@@ -14,6 +14,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(methodOverride("_method"));
 
 main().then(() => console.log("Connection Successful"))
     .catch(err => console.log(err));
@@ -55,4 +56,25 @@ app.get('/listings/:id', async (req, res) => {
     const {id} = req.params;
     const listing = await Listing.findById(id);
     res.render("listings/show.ejs", {listing});
+})
+
+//Edit Route 
+app.get('/listings/:id/edit', async (req, res) => {
+    let {id} = req.params;
+    const listing = await Listing.findById(id);
+    res.render("listings/edit.ejs", {listing});
+})
+
+//Update Route
+app.patch('/listings/:id', async (req, res) => {
+    let {id} = req.params;
+    await Listing.findByIdAndUpdate(id, req.body.listing);
+    res.redirect('/listings');
+})
+
+//Delete Route 
+app.delete('/listings/:id', async (req, res) => {
+    let {id} = req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect('/listings');
 })
