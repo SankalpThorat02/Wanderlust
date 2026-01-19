@@ -18,6 +18,8 @@ app.use(express.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 
+app.use(express.static(path.join(__dirname, "public")));
+
 main().then(() => console.log("Connection Successful"))
     .catch(err => console.log(err));
 

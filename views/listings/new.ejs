@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Wanderlust </title>
-</head>
-<body>
-    <form action="/listings" method="post">
-        <h3> Create a New listing </h3>
-        <input type="text" name="listing[title]" placeholder="Add Title"> <br> <br>
-        <textarea name="listing[description]" placeholder="Add description"></textarea> <br> <br>
-        <input type="text" name="listing[image]" placeholder="URL"> <br> <br>
-        <input type="number" name="listing[price]" placeholder="Price"> <br> <br>
-        <input type="text" name="listing[location]" placeholder="location"> <br> <br>
-        <input type="text" name="listing[country]" placeholder="Country"> <br> <br>
+<% layout("layouts/boilerplate") -%>
 
-        <button> Add Listing </button>
-    </form>
-</body>
-</html>
+<form action="/listings" method="post">
+    <h3> Create a New listing </h3>
+    <input type="text" name="listing[title]" placeholder="Add Title"> <br> <br>
+    <textarea name="listing[description]" placeholder="Add description"></textarea> <br> <br>
+    <input type="text" name="listing[image]" placeholder="URL"> <br> <br>
+    <input type="number" name="listing[price]" placeholder="Price"> <br> <br>
+    <input type="text" name="listing[location]" placeholder="location"> <br> <br>
+    <input type="text" name="listing[country]" placeholder="Country"> <br> <br>
+
+    <button> Add Listing </button>
+</form>
