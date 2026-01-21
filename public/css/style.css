@@ -89,3 +89,13 @@ a {
     background-color: white;
     opacity: 0.2;
 }
+
+.badge {
+    padding: 8px !important;
+    font-size: 0.8rem !important;
+}
+
+.show-img {
+    border-radius: 1rem !important;
+    height: 40vh;
+}
