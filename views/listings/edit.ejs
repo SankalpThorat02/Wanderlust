@@ -26,7 +26,10 @@
         </div>
         <div class="mb-3">
             <label for="image" class="form-label"> Image URL/Link </label>
-            <input type="text" name="listing[image]" class="form-control" id="image" placeholder="URL" value="<%= listing.image %>"> 
+            <input type="text" name="listing[image]" class="form-control" id="image" placeholder="URL" value="<%= listing.image %>" required>
+            <div class="invalid-feedback">
+                Please provide image link.
+            </div> 
         </div>
         <div class="row">
             <div class="mb-3 col-md-4">

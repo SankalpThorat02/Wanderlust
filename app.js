@@ -7,6 +7,7 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 
 const Listing = require("./models/listing.js");
+const ExpressError = require("./utility/ExpressError.js");
 
 const port = 8080;
 
@@ -59,6 +60,9 @@ app.post('/listings', async (req, res) => {
 app.get('/listings/:id', async (req, res) => {
     const {id} = req.params;
     const listing = await Listing.findById(id);
+    if(!listing) {
+        throw new ExpressError(404, "Listing not found");
+    }
     res.render("listings/show.ejs", {listing});
 })
 
@@ -66,6 +70,9 @@ app.get('/listings/:id', async (req, res) => {
 app.get('/listings/:id/edit', async (req, res) => {
     let {id} = req.params;
     const listing = await Listing.findById(id);
+    if(!listing) {
+        throw new ExpressError(404, "Listing Not found");
+    }
     res.render("listings/edit.ejs", {listing});
 })
 
@@ -81,4 +88,13 @@ app.delete('/listings/:id', async (req, res) => {
     let {id} = req.params;
     await Listing.findByIdAndDelete(id);
     res.redirect('/listings');
+})
+
+app.use((req, res, next) => {
+    throw new ExpressError(404, "Page Not Found");
+})
+
+app.use((err, req, res, next) => {
+    let {status = 500, message = "Some error"} = err;
+    res.status(status).send(message);
 })
