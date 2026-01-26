@@ -102,5 +102,5 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     let {status = 500, message = "Some error"} = err;
-    res.status(status).send(message);
+    res.status(status).render("listings/error.ejs", {err});
 })
