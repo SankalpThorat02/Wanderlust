@@ -50,6 +50,9 @@ app.get('/listings/new', (req, res) => {
 
 //Create Route
 app.post('/listings', async (req, res) => {
+    if(!req.body.listing) {
+        throw new ExpressError(400, "Send valid Data for listing");
+    }
     const newListing = new Listing(req.body.listing);
     await newListing.save(); 
 
@@ -78,6 +81,9 @@ app.get('/listings/:id/edit', async (req, res) => {
 
 //Update Route
 app.put('/listings/:id', async (req, res) => {
+    if(!req.body.listing) {
+        throw new ExpressError(400, "Send valid data for listing");
+    }
     let {id} = req.params;
     await Listing.findByIdAndUpdate(id, req.body.listing);
     res.redirect(`/listings/${id}`);
