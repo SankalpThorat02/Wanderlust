@@ -8,6 +8,7 @@ const ejsMate = require("ejs-mate");
 
 const Listing = require("./models/listing.js");
 const ExpressError = require("./utility/ExpressError.js");
+const { listingSchema } = require("./schema.js");
 
 const port = 8080;
 
@@ -50,9 +51,11 @@ app.get('/listings/new', (req, res) => {
 
 //Create Route
 app.post('/listings', async (req, res) => {
-    if(!req.body.listing) {
-        throw new ExpressError(400, "Send valid Data for listing");
+    let result = listingSchema.validate(req.body);
+    if(result.error) {
+        throw new ExpressError(400, result.error);
     }
+
     const newListing = new Listing(req.body.listing);
     await newListing.save(); 
 
