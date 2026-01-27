@@ -22,6 +22,16 @@ app.engine("ejs", ejsMate);
 
 app.use(express.static(path.join(__dirname, "public")));
 
+const validateListing = (req, res, next) => {
+    let {error} = listingSchema.validate(req.body);
+    if(error) {
+        throw new ExpressError(400, error);
+    }
+    else {
+        next();
+    }
+};
+
 main().then(() => console.log("Connection Successful"))
     .catch(err => console.log(err));
 
@@ -43,19 +53,13 @@ app.get('/listings', async (req, res) => {
     res.render("listings/index.ejs", {allListings});
 })
 
-
 //New Route 
 app.get('/listings/new', (req, res) => {
     res.render("listings/new.ejs");
 })
 
 //Create Route
-app.post('/listings', async (req, res) => {
-    let result = listingSchema.validate(req.body);
-    if(result.error) {
-        throw new ExpressError(400, result.error);
-    }
-
+app.post('/listings', validateListing, async (req, res) => {
     const newListing = new Listing(req.body.listing);
     await newListing.save(); 
 
@@ -83,10 +87,7 @@ app.get('/listings/:id/edit', async (req, res) => {
 })
 
 //Update Route
-app.put('/listings/:id', async (req, res) => {
-    if(!req.body.listing) {
-        throw new ExpressError(400, "Send valid data for listing");
-    }
+app.put('/listings/:id', validateListing, async (req, res) => {
     let {id} = req.params;
     await Listing.findByIdAndUpdate(id, req.body.listing);
     res.redirect(`/listings/${id}`);
